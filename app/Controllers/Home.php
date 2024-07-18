@@ -80,6 +80,9 @@ class Home extends BaseController
         return redirect()->to('/family');
     }
 
+
+
+    
     // Create family_members table (Run this once, then you can remove or comment it out)
     public function createTable()
     {
