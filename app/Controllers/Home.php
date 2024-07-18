@@ -83,7 +83,7 @@ class Home extends BaseController
 
 
     
-    // Create family_members table (Run this once, then you can remove or comment it out)
+    // create family member
     public function createTable()
     {
         $db = \Config\Database::connect();
