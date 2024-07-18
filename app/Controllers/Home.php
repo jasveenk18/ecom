@@ -80,7 +80,17 @@ class Home extends BaseController
         return redirect()->to('/family');
     }
 
-
+    public function listUser()
+    {
+        $loginFn = new LoginDetails();
+        $userData =  $loginFn->getUserList(); 
+    
+        $data111['userDetails'] =         $userData ;
+        return view('listUser', $data111); // Renders the loginView 
+    }
+    
+    
+    
 
     
     // create family member
