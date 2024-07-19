@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use mysqli; // Make sure to import the mysqli class
 use App\Models\LoginDetails;
+use App\Models\MyAddress;
 
 class Home extends BaseController
 {
@@ -57,6 +58,15 @@ class Home extends BaseController
         if ($returnData) {
             if ($returnData['password'] == $password) {
                 echo "User Found email id : " . $returnData['email_id'];
+
+                $newdata = [
+                    'id'  => $returnData['ID'],
+                    'email'     => $returnData['email_id'],
+                    'logged_in_status' => true,
+                ];
+                
+                session()->set($newdata);
+
             } else {
                 echo "Incorrect login details";
             }
@@ -64,80 +74,50 @@ class Home extends BaseController
             echo "User name not found";
         }
     }
-    public function save()
+    public function saveAddress()
     {
-        $model = new FamilyMemberModel();
+        $myAddressModel = new MyAddress();
 
         $data = [
-            'name' => $this->request->getPost('name'),
-            'relationship' => $this->request->getPost('relationship'),
-            'age' => $this->request->getPost('age'),
-            'occupation' => $this->request->getPost('occupation')
+            'house_no' => $this->request->getPost('house_no'),
+            'address_line1' => $this->request->getPost('address_line1'),
+            'address_line2' => $this->request->getPost('address_line2'),
+            'locality' => $this->request->getPost('locality'),
+            'city' => $this->request->getPost('city'),
+            'zipcode' => $this->request->getPost('zipcode')
+
+
         ];
 
-        $model->save($data);
+        $myAddressModel->saveAddress($data);
 
-        return redirect()->to('/family');
+        //return redirect()->to('/family');
     }
 
     public function listUser()
     {
         $loginFn = new LoginDetails();
-        $userData =  $loginFn->getUserList(); 
-    
-        $data111['userDetails'] =         $userData ;
+        $userData =  $loginFn->getUserList();
+
+        $data111['userDetails'] =         $userData;
         return view('listUser', $data111); // Renders the loginView 
     }
-    
-    
-    
 
-    
-    // create family member
-    public function createTable()
+
+
+    public function address(): string
     {
-        $db = \Config\Database::connect();
-        $forge = \Config\Database::forge();
 
-        $forge->addField([
-            'id' => [
-                'type' => 'INT',
-                'constraint' => 6,
-                'unsigned' => TRUE,
-                'auto_increment' => TRUE
-            ],
-            'name' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
-                'null' => FALSE
-            ],
-            'relationship' => [
-                'type' => 'VARCHAR',
-                'constraint' => '50',
-                'null' => FALSE
-            ],
-            'age' => [
-                'type' => 'INT',
-                'constraint' => 3,
-                'null' => FALSE
-            ],
-            'occupation' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
-                'null' => TRUE
-            ],
-            'reg_date' => [
-                'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on_update' => 'CURRENT_TIMESTAMP'
-            ]
-        ]);
-
-        $forge->addKey('id', TRUE);
-        $forge->createTable('family_members', TRUE);
-
-        echo "Table family_members created successfully";
+        echo "Welcome : ".session()->get('email');
+        return view('address'); // Renders the loginView 
     }
 
+    public function logout(){
+        $data = [
+            'id' ,
+            'email' , 
+            'logged_in_status' 
+        ];
+        session()->remove($data);
+    }
 }
-    

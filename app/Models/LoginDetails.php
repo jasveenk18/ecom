@@ -58,17 +58,18 @@ class LoginDetails extends Model
     }
     public function getSignupDetails(string $userName ): array|null{
       $data = [
-        'id'          => new RawSql('DEFAULT'),
+    
         'email_id'       => 'My email',
         'login_id'        => 'My loginid',
-        'password' => new RawSql('CURRENT_TIMESTAMP()'),
+        'password' => "",
     ];
-
+    return null;
   
   }
 
 
-  public function getUserList(): array|null{
+  public function getUserList(): array|null
+  {
 
 
     $query = $this->db->table("loginDetails")
@@ -76,13 +77,10 @@ class LoginDetails extends Model
             ->get()->getResultArray();
 
     return $query;
+  }
 }
- {
-  protected $table = 'family_members';
-  protected $primaryKey = 'id';
-  protected $allowedFields = ['name', 'relationship', 'age', 'occupation'];
- }
-}
+
+    
 
 
 

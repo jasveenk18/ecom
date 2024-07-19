@@ -214,12 +214,29 @@
                 <button id="menuToggle">&#9776;</button>
             </li>
             <li class="menu-item hidden"><a href="#">Home</a></li>
+
+            
             <li class="menu-item hidden"><a href="http://localhost:8080/login" target="">Login</a>
             </li>
-            <li class="menu-item hidden"><a href="https://forum.codeigniter.com/" target="_blank">Community</a></li>
+            <li class="menu-item hidden"><a href="http://localhost:8080/address" target="">Address</a></li>
+         <?php
+            if(session()->get('logged_in_status') == true){
+
+            
+         ?>
+         
+         
             <li class="menu-item hidden"><a
-                    href="https://codeigniter.com/contribute" target="_blank">Contribute</a>
+                    href="http://localhost:8080/logout" target="">
+            LogOut
+                
+                </a>
             </li>
+
+            <?php 
+            }
+
+?>
         </ul>
     </div>
 

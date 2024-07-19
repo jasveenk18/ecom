@@ -30,7 +30,7 @@
 # DATABASE
 #--------------------------------------------------------------------
 
- database.default.hostname = localhost
+ database.default.hostname = localhost1
  database.default.database = ecommerce
  database.default.username = newuser
  database.default.password = password

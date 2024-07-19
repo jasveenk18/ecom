@@ -66,17 +66,7 @@
 </head>
 <body>
 
-<?php
-       $a= [1,2,3];
-       $a1= ["key1"=>"val1",2=>"b",3=>"c"];
-       $a2= ["a1","b1","c1"];
-       print_r($a);
-       print_r($a1);
-       print_r($a2[0]);
-       
-
-?>
-<form id="contact-form" name="contact" method="post" data-netlify="true" data-netlify-recaptcha="true" action = "/getSignupDetails" >
+<form id="contact-form" name="contact" method="post" data-netlify="true" data-netlify-recaptcha="true" action = "/loginSubmit" >
   
     <div class="login-box">
         <h1>Login</h1>

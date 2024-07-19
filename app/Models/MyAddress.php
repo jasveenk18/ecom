@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FamilyMembers extends Model
+class MyAddress extends Model
 {
-    protected $table            = 'familymembers';
+    protected $table            = 'my_address';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -43,10 +43,9 @@ class FamilyMembers extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-}
-class FamilyMemberModel extends Model
-{
-    protected $table = 'family_members';
-    protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'relationship', 'age', 'occupation'];
+
+    public function saveAddress($data){
+        
+        $this->db->table('my_address')->insert($data);
+    }
 }
