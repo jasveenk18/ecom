@@ -108,6 +108,14 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <ul>
+        <?php if (session()->get('logged_in_status') == true): ?>
+            <li class="menu-item"><a href="http://localhost:8080/logout" target="">LogOut</a></li>
+            <li class="menu-item"><a href="http://localhost:8080/address" target="">Address</a></li>
+        <?php else: ?>
+            <li class="menu-item"><a href="http://localhost:8080/login" target="">Login</a></li>
+        <?php endif; ?>
+    </ul>
 </body>
 </html>
 <!DOCTYPE html>

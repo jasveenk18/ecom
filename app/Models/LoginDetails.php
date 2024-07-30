@@ -72,11 +72,11 @@ class LoginDetails extends Model
   {
 
 
-    $query = $this->db->table("loginDetails")
-            ->select("ID,email_id,login_id,password")
-            ->get()->getResultArray();
+      $query = $this->db->table("loginDetails")
+              ->select("ID,email_id,login_id,password")
+              ->get()->getResultArray();
 
-    return $query;
+      return $query;
   }
 }
 

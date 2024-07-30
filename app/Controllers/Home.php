@@ -47,17 +47,19 @@ class Home extends BaseController
         $password = $postData['password'];
 
 
-        echo "Your User Name is :" . $postData['uName'] . "</br>";
+        // echo "Your User Name is :" . $postData['uName'] . "</br>";
 
-        echo "Your User Password is :" .   $password . " </br>";
+        // echo "Your User Password is :" .   $password . " </br>";
         $loginFn = new LoginDetails();
         $returnData =  $loginFn->getLoginDetails($userName);
-        echo "< /br>";
-        print_r($returnData);
+        // echo "< /br>";
+        // print_r($returnData);
+        $message  = "";
+        $loginStatus = 'error';
 
         if ($returnData) {
             if ($returnData['password'] == $password) {
-                echo "User Found email id : " . $returnData['email_id'];
+                // echo "User Found email id : " . $returnData['email_id'];
 
                 $newdata = [
                     'id'  => $returnData['ID'],
@@ -66,13 +68,27 @@ class Home extends BaseController
                 ];
                 
                 session()->set($newdata);
+                $message =  "You are successfully loged in";
 
+                $loginStatus = true;
             } else {
-                echo "Incorrect login details";
+                $loginStatus = 'error';
+                $message =  "Incorrect login details";
             }
         } else {
-            echo "User name not found";
+            $loginStatus = 'error';
+            $message =  "User name not found";
         }
+        var_dump( $loginStatus);
+        $_SESSION['loginMessage'] = $message;
+        $_SESSION['loginStatus'] = $loginStatus;
+        
+        session()->markAsFlashdata('loginMessage');
+        session()->markAsFlashdata('loginStatus');
+        // die;
+        return redirect()->to('/'); 
+
+
     }
     public function saveAddress()
     {
@@ -84,11 +100,12 @@ class Home extends BaseController
             'address_line2' => $this->request->getPost('address_line2'),
             'locality' => $this->request->getPost('locality'),
             'city' => $this->request->getPost('city'),
-            'zipcode' => $this->request->getPost('zipcode')
+            'zipcode' => $this->request->getPost('zipcode'),
+            'user_id' => session()->get('id')
 
 
         ];
-
+        // print_r($data);die;
         $myAddressModel->saveAddress($data);
 
         //return redirect()->to('/family');
@@ -119,5 +136,89 @@ class Home extends BaseController
             'logged_in_status' 
         ];
         session()->remove($data);
+        return redirect()->to('/'); 
     }
+    public function showForm()
+    {
+        return view('address_form');
+    }
+    
+
+    public function duplicateAddress()
+    {
+        // Load the model
+        $duplicateAddress = new \App\Models\MyAddress();
+    
+        // Get the form data
+        $houseNo = $this->request->getPost('house_no');
+        $addressLine1 = $this->request->getPost('address_line_1');
+        $addressLine2 = $this->request->getPost('address_line_2');
+        $locality = $this->request->getPost('locality');
+        $city = $this->request->getPost('city');
+        $zipCode = $this->request->getPost('zip_code');
+    
+        // Check if the address already exists
+        if ($duplicateAddress->addressExists($houseNo, $addressLine1, $addressLine2, $locality, $city, $zipCode)) {
+            // Address already exists, handle accordingly
+            return redirect()->back()->withInput()->with('error', 'This address is already registered.');
+        }
+    
+        // Save the address if it does not exist
+        $data = [
+            'house_no' => $houseNo,
+            'address_line_1' => $addressLine1,
+            'address_line_2' => $addressLine2,
+            'locality' => $locality,
+            'city' => $city,
+            'zip_code' => $zipCode,
+            'user_id' => session()->get('id')
+        ];
+    
+        if ($duplicateAddress->insert($data)) {
+            return redirect()->to('/addresses')->with('success', 'Address saved successfully.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to save the address.');
+        }
+    }
+    public function showAllAddresses()
+    {
+
+        // echo "ii";die;
+        $addressModel = new MyAddress();
+        $user_ID = session()->get('id');
+        // Fetch all addresses
+        $data['addresses'] = $addressModel->getAllAddresses($user_ID);
+            // print_r($data['addresses']);die;
+        // Load the view and pass the addresses data
+        return view('allAddress', $data);
+    }
+    public function showFormPage()
+    {
+        // Get the user ID from session
+        $user_id = session()->get('user_id');
+        
+        if ($user_id) {
+            // Load your address model
+            $addressModel = new MyAddress();
+
+            // Fetch addresses for the logged-in user
+            $addresses = $addressModel->getAllAddresses($user_id);
+
+            // Pass addresses to the view
+            return view('your_form_page', ['addresses' => $addresses]);
+        } else {
+            // Handle the case where there is no logged-in user
+            return redirect()->to('/login')->with('error', 'Please log in first');
+        }
+    }
+
+  
 }
+
+
+
+
+
+
+
+
