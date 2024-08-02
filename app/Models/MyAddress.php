@@ -106,7 +106,37 @@ return $query;
     {
         return $this->save($data);
     }
+    public function editAddress($id)
+    {
+        $model = new MyAddress();
+        $data['address'] = $model->find($id);
+
+        if (empty($data['address'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Address not found');
+        }
+
+        return view('edit_address', $data);
+    }
+
+    public function updateAddress($id)
+    {
+        $model = new MyAddress();
+
+        $data = [
+            'house_no' => $this->request->getPost('house_no'),
+            'address_line_1' => $this->request->getPost('address_line_1'),
+            'address_line_2' => $this->request->getPost('address_line_2'),
+            'locality' => $this->request->getPost('locality'),
+            'city' => $this->request->getPost('city'),
+            'zip_code' => $this->request->getPost('zip_code')
+        ];
+
+        $model->update($id, $data);
+
+        return redirect()->to('/home/addresses');
+    }
 }
+
 
 
 

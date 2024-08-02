@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Add Product</title>
-</head>
+    <h1>Products</h1>
+    
 <body>
     <h1>Add Product</h1>
     <?php if (session()->getFlashdata('success')): ?>

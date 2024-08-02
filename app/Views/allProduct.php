@@ -2,6 +2,48 @@
 <html>
 <head>
     <title>All Products</title>
+    <style>
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>All Products</h1>
@@ -18,6 +60,7 @@
                     <th>RAM</th>
                     <th>HDD</th>
                     <th>Image</th>
+                    <th>Actions</th> <!-- Added new column for Actions -->
                 </tr>
             </thead>
             <tbody>
@@ -32,9 +75,10 @@
                         <td><?= esc($product['productRAM']) ?></td>
                         <td><?= esc($product['productHDD']) ?></td>
                         <td>
-                            <a href="<?= base_url('uploads/' . esc($product['productImage'])) ?>" target="_blank">
-                                <img src="<?= base_url('uploads/' . esc($product['productImage'])) ?>" alt="Product Image" width="100">
-                            </a>
+                            <a href="#" class="image-link" data-image="<?= base_url(esc($product['productImage'])) ?>">View Image</a>
+                        </td>
+                        <td>
+                            <a href="/product/details/<?= $product['productID'] ?>">View Details</a> <!-- Added View Details link -->
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -43,39 +87,5 @@
     <?php else: ?>
         <p>No products found.</p>
     <?php endif; ?>
-    <h1>Add Product</h1>
-    <?php if (session()->getFlashdata('success')): ?>
-        <p style="color:green;"><?= session()->getFlashdata('success') ?></p>
-    <?php endif; ?>
-    <?php if (session()->getFlashdata('error')): ?>
-        <p style="color:red;"><?= session()->getFlashdata('error') ?></p>
-    <?php endif; ?>
-    <form action="/product/store" method="post" enctype="multipart/form-data">
-        <?= csrf_field() ?> <!-- Include CSRF token for security -->
-        <label for="productName">Product Name:</label>
-        <input type="text" name="productName" id="productName" required><br>
-
-        <label for="productPrice">Product Price:</label>
-        <input type="text" name="productPrice" id="productPrice" required><br>
-
-        <label for="productMRP">Product MRP:</label>
-        <input type="text" name="productMRP" id="productMRP" required><br>
-
-        <label for="productBrand">Product Brand:</label>
-        <input type="text" name="productBrand" id="productBrand" required><br>
-
-        <label for="productOS">Product OS:</label>
-        <input type="text" name="productOS" id="productOS" required><br>
-
-        <label for="productRAM">Product RAM:</label>
-        <input type="text" name="productRAM" id="productRAM" required><br>
-
-        <label for="productHPP">Product HDD:</label>
-        <input type="text" name="productHPP" id="productHPP" required><br>
-
-        <label for="productImage">Product Image:</label>
-        <input type="file" name="productImage" id="productImage" required><br>
-
-        <button type="submit">Add Product</button>
 </body>
 </html>

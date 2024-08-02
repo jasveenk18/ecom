@@ -20,6 +20,13 @@ $routes->get('/AllAddresses', 'Home::showAllAddresses');
 $routes->get('/product/create', 'ProductController::create');
 $routes->post('/product/store', 'ProductController::store');
 $routes->get('/product/all', 'ProductController::showAllProducts');
+$routes->get('/home/editAddress/(:num)', 'Home::editAddress/$1');
+$routes->post('/home/updateAddress', 'Home::updateAddress');
+$routes->post('cart/add', 'Cart::add');
+$routes->get('cart', 'Cart::index');
+$routes->post('cart/update', 'Cart::update');
+
+
 
 
 

@@ -71,4 +71,24 @@ class ProductTable extends Model
     {
         return $this->where('user_ID', $userID)->findAll();
     }
+    public function getProductDetails($id): array|null
+    {
+
+
+        $query = $this->db->table("product_table")
+            ->select("*")
+            ->where("id", $id)
+            ->get()->getRowArray();
+
+        return $query;
+    }
 }
+// class ProductModel extends Model
+// {
+//     protected $table = 'product_table';
+//     protected $primaryKey = 'id';
+//     protected $allowedFields = ['name', 'price', 'description'];
+
+
+  
+// }

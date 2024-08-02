@@ -211,8 +211,42 @@ class Home extends BaseController
             return redirect()->to('/login')->with('error', 'Please log in first');
         }
     }
+    public function editAddress($id)
+    
+    {
 
-  
+        
+        $model = new MyAddress();
+        $data['address'] = $model->find($id);
+        // echo "<pre>";
+        // print_r($data['address']);die;
+        if (empty($data['address'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Address not found');
+        }
+
+        return view('editAddress', $data);
+    }
+
+    public function updateAddress()
+    {
+        $model = new MyAddress();
+
+        $data = [
+            'house_no' => $this->request->getPost('house_no'),
+            'address_line1' => $this->request->getPost('address_line1'),
+            'address_line2' => $this->request->getPost('address_line2'),
+            'locality' => $this->request->getPost('locality'),
+            'city' => $this->request->getPost('city'),
+            'zipcode' => $this->request->getPost('zipcode')
+        ];
+
+        $id = $this->request->getPost('tableId');
+        if ($model->update($id, $data)) {
+            return redirect()->to('/AllAddresses')->with('success', 'Address updated successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Failed to update address');
+        }
+    }
 }
 
 

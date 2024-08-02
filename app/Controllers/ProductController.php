@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ProductTable;
-use CodeIgniter\Files\File;
 
 class ProductController extends BaseController
 {
@@ -32,31 +31,20 @@ class ProductController extends BaseController
             'productOS' => $this->request->getPost('productOS'),
             'productRAM' => $this->request->getPost('productRAM'),
             'productHDD' => $this->request->getPost('productHPP'),
-            'productImage' => $this->request->getPost('productImage'),
+            // 'productImage' => $this->request->getPost('productImage'),
         ];
-        $imagePath =  $this->uploadFile();
-        $data['productImage'] =     $imagePath;
 
-        var_dump($imagePath);
-         die;
-        if ($productModel->save($data)) {
-
-      
+        if ($productModel->saveProduct($data)) {
             return redirect()->to('/product/create')->with('success', 'Product added successfully');
         } else {
             return redirect()->back()->with('error', 'Failed to add product');
         }
     }
 
-    public function uploadFile(): string|bool
+    public function uploadFile()
     {
 
         $target_dir = "public/images/";
-        
-        $ext = pathinfo($_FILES["productImage"]["name"], PATHINFO_EXTENSION);
-
-        $fileUniqueName = $_FILES["productImage"]["tmp_name"].$ext;
-
         $target_file = $target_dir . basename($_FILES["productImage"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -105,7 +93,6 @@ class ProductController extends BaseController
                 echo "Sorry, there was an error uploading your file.";
             }
         }
-        return $target_dir.$fileUniqueName;
     }
     // Function to display all products
     public function showAllProducts()
@@ -113,5 +100,63 @@ class ProductController extends BaseController
         $productModel = new ProductTable();
         $data['products'] = $productModel->getAllProducts();
         return view('allProduct', $data);
+    }
+
+
+
+    public function details($id)
+    {
+        $productModel = new ProductTable();
+        $data['product'] = $productModel->getProductDetails($id);
+        echo  "<pre>";
+        print_r($data['product']);
+        die;
+        if (empty($data['product'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Product not found');
+        }
+
+        return view('productView', $data);
+    }
+    public function update()
+    {
+        $cartData = $this->request->getPost('cart'); // Assuming you're sending the cart data as 'cart'
+
+        // Process cart data here, e.g., update the cart in the session or database
+
+        return redirect()->to('/cart'); // Redirect to the cart page or wherever appropriate
+
+    }
+
+    public function cartTable($productId)
+    {
+        // Retrieve product details from the database
+        $productModel = new ProductTable();
+
+        $product = $productModel->find($productId);
+
+        if (!$product) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Product not found');
+        }
+
+        // Get user ID from session
+        $session = session();
+        $userId = $session->get('user_id'); // Assuming you store user ID in session as 'user_id'
+
+        // Create cart data
+        $cartData = [
+            'product_id' => $productId,
+            'product_name' => $product['product_name'],
+            'price' => $product['price'],
+            'user_id' => $userId,
+            'order_status' => 1, // Assuming 1 means 'active' or 'added'
+            'created_at' => date('Y-m-d H:i:s') // Current server time
+        ];
+
+        // Add cart data to database or session
+        $cartModel = new \App\Models\CartModel();
+        $cartModel->insert($cartData);
+
+        // Redirect to cart page or wherever appropriate
+        return redirect()->to('/cart');
     }
 }
