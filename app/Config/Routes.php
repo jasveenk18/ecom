@@ -22,9 +22,9 @@ $routes->post('/product/store', 'ProductController::store');
 $routes->get('/product/all', 'ProductController::showAllProducts');
 $routes->get('/home/editAddress/(:num)', 'Home::editAddress/$1');
 $routes->post('/home/updateAddress', 'Home::updateAddress');
-$routes->post('cart/add', 'Cart::add');
-$routes->get('cart', 'Cart::index');
-$routes->post('cart/update', 'Cart::update');
+$routes->get('/cart/add/(:num)', 'Cart::add/$1');
+// $routes->get('cart', 'Cart::index');
+$routes->post('/myCart', 'Cart::cartitem');
 
 
 

@@ -46,6 +46,12 @@
     </style>
 </head>
 <body>
+<?php
+
+
+$loginStatus = session()->getFlashdata('CartStatus');
+print_r($loginStatus);
+?>
     <h1>All Products</h1>
     <?php if (!empty($products) && is_array($products)): ?>
         <table border="1">
@@ -60,7 +66,8 @@
                     <th>RAM</th>
                     <th>HDD</th>
                     <th>Image</th>
-                    <th>Actions</th> <!-- Added new column for Actions -->
+                    <th>Actions</th>
+                    <th>Add to cart</th>  <!-- Added new column for Actions -->
                 </tr>
             </thead>
             <tbody>
@@ -79,6 +86,10 @@
                         </td>
                         <td>
                             <a href="/product/details/<?= $product['productID'] ?>">View Details</a> <!-- Added View Details link -->
+                        </td>
+
+                        <td>
+                            <a href="/cart/add/<?= $product['productID'] ?>">Add to cart</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

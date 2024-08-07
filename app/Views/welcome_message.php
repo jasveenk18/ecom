@@ -272,9 +272,6 @@
                     <li class="menu-item"><a href="http://localhost:8080/login" target="">Login</a></li>
                 <?php endif; ?>
 
-
-
-
                 <?php if (session()->get('logged_in_status') == true) : ?>
                     <?php if (session()->get('all_addresses') == true) : ?>
                         <li class="menu-item"><a href="http://localhost:8080/AllAddresses" target="">MyAddresses</a></li>
@@ -285,7 +282,7 @@
 
 
                 <!-- Font Awesome Cart Icon as Link -->
-                <a href="https://www.example.com" target="_blank">
+                <a href=<?= site_url('myCart') ?> target="_blank">
                     <i class="fas fa-shopping-cart"></i>
                 </a>
 

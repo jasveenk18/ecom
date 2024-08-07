@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class ProductTable extends Model
 {
-    protected $table            = 'product_table';
+    protected $table            = 'order_management';
     protected $primaryKey       = 'productID';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -53,58 +53,4 @@ class ProductTable extends Model
         return false;
     } // Add a method to get products by user
 
-
-
-
-    public function getAllProducts(): array|null
-    {
-
-        $query = $this->db->table("product_table")
-            ->select("*")
-            ->get()->getResultArray();
-
-        return $query;
-    }
-
-
-    public function getProductsByUser($userID)
-    {
-        return $this->where('user_ID', $userID)->findAll();
-    }
-    public function getProductDetails($id): array|null
-    {
-
-
-        $query = $this->db->table("product_table")
-            ->select("*")
-            ->where("id", $id)
-            ->get()->getRowArray();
-
-        return $query;
-    }
-
-    public function getCartItems($userId)
-    {
-
-
-
-        $query = $this->db->table("order_management")
-            ->select("*")
-            ->where('user_id', $userId)
-            ->where('order_status', 1)
-            ->get()->getResultArray();
-
-        return $query;
-       
-    }
 }
-// class ProductModel extends Model
-// {
-//     protected $table = 'product_table';
-//     protected $primaryKey = 'id';
-//     protected $allowedFields = ['name', 'price', 'description'];
-
-
-  
-// }
-

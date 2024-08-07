@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ProductTable;
 
+
 class ProductController extends BaseController
 {
     public function index()
@@ -30,7 +31,7 @@ class ProductController extends BaseController
             'productBrand' => $this->request->getPost('productBrand'),
             'productOS' => $this->request->getPost('productOS'),
             'productRAM' => $this->request->getPost('productRAM'),
-            'productHDD' => $this->request->getPost('productHPP'),
+            'productHDD' => $this->request->getPost('productHDD'),
             // 'productImage' => $this->request->getPost('productImage'),
         ];
 
@@ -89,7 +90,7 @@ class ProductController extends BaseController
         } else {
             if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $target_file)) {
                 echo "The file " . htmlspecialchars(basename($_FILES["productImage"]["name"])) . " has been uploaded.";
-            } else {
+           // } else {
                 echo "Sorry, there was an error uploading your file.";
             }
         }
@@ -108,9 +109,9 @@ class ProductController extends BaseController
     {
         $productModel = new ProductTable();
         $data['product'] = $productModel->getProductDetails($id);
-        echo  "<pre>";
-        print_r($data['product']);
-        die;
+        // echo  "<pre>";
+        // print_r($data['product']);
+      
         if (empty($data['product'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Product not found');
         }
@@ -127,7 +128,7 @@ class ProductController extends BaseController
 
     }
 
-    public function cartTable($productId)
+    public function AddToCart($productId)
     {
         // Retrieve product details from the database
         $productModel = new ProductTable();
@@ -159,4 +160,39 @@ class ProductController extends BaseController
         // Redirect to cart page or wherever appropriate
         return redirect()->to('/cart');
     }
+    public function add()
+    {
+        $productId = $this->request->getPost('product_id');
+        $quantity = $this->request->getPost('quantity', 1);
+
+        $productModel = new ProductTable();
+        $product = $productModel->find($productId);
+
+        if ($product) {
+            $cart = session()->get('cart') ?? [];
+            if (isset($cart[$productId])) {
+                $cart[$productId]['quantity'] += $quantity;
+            } else {
+                $cart[$productId] = [
+                    'product' => $product,
+                    'quantity' => $quantity,
+                ];
+            }
+            session()->set('cart', $cart);
+
+            $_SESSION['CartStatus'] = $cart;
+        
+            session()->markAsFlashdata('SuccessMessage');
+        }
+
+        return redirect()->to('/cart/success');
+    }
+
+    public function success()
+    {
+        return view('cart_success');
+    }
+    
 }
+
+
