@@ -5,6 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->get('/blank', 'Home::blank');
 $routes->get('/', 'Home::index');
 $routes->get('/login', 'Home::login');
 $routes->post('/loginSubmit', 'Home::loginSubmit');
@@ -23,6 +24,7 @@ $routes->get('/product/all', 'ProductController::showAllProducts');
 $routes->get('/home/editAddress/(:num)', 'Home::editAddress/$1');
 $routes->post('/home/updateAddress', 'Home::updateAddress');
 $routes->get('/cart/add/(:num)', 'Cart::add/$1');
+
 // $routes->get('cart', 'Cart::index');
 $routes->post('/myCart', 'Cart::cartitem');
 

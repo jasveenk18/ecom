@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class LoginDetails extends Model
 {
-    protected $table            = 'logindetails';
+    protected $table            = 'loginDetails';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

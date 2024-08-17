@@ -32,8 +32,8 @@
 
  database.default.hostname = localhost1
  database.default.database = ecommerce
- database.default.username = newuser
- database.default.password = password
+ database.default.username = root
+ database.default.password = root
  database.default.DBDriver = MySQLi
  database.default.DBPrefix =
  database.default.port = 3306

@@ -10,13 +10,21 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('welcome_message'); // Renders the welcome_message view
+       return view('welcome_message'); // Renders the welcome_message view
+
+        // return view('homePage');
     }
 
     public function login(): string
     {
 
         return view('loginView'); // Renders the loginView 
+    }
+
+
+    public function blank(): string
+    {
+        return view('blankPage');
     }
 
     private function getDbConnection()
