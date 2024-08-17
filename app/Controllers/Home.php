@@ -22,6 +22,11 @@ class Home extends BaseController
     }
 
 
+   public function dashboard(): string
+    {
+
+        return view('dashboard'); // Renders the loginView 
+    }
 
 
     private function getDbConnection()
