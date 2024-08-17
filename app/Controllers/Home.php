@@ -10,9 +10,9 @@ class Home extends BaseController
 {
     public function index(): string
     {
-       return view('welcome_message'); // Renders the welcome_message view
+       // return view('welcome_message'); // Renders the welcome_message view
 
-        // return view('homePage');
+        return view('homePage');
     }
 
     public function login(): string
@@ -22,10 +22,7 @@ class Home extends BaseController
     }
 
 
-    public function blank(): string
-    {
-        return view('blankPage');
-    }
+
 
     private function getDbConnection()
     {
@@ -94,7 +91,7 @@ class Home extends BaseController
         session()->markAsFlashdata('loginMessage');
         session()->markAsFlashdata('loginStatus');
         // die;
-        return redirect()->to('/'); 
+        return redirect('/'); 
 
 
     }
@@ -144,7 +141,7 @@ class Home extends BaseController
             'logged_in_status' 
         ];
         session()->remove($data);
-        return redirect()->to('/'); 
+        return redirect("/"); 
     }
     public function showForm()
     {

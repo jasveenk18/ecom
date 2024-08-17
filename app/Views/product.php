@@ -1,44 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Product</title>
-    <h1>Products</h1>
-    
-<body>
-    <h1>Add Product</h1>
-    <?php if (session()->getFlashdata('success')): ?>
+<?= $this->include('layouts/profile_header') ?>
+
+
+<div class="container-fluid">
+  <div class="col-lg-12">
+    <div class="p-5">
+        <div class="text-left">
+            <h1 class="h4 text-gray-900 mb-4">Create New Product!</h1>
+        </div>
+
+
+        <?php if (session()->getFlashdata('success')): ?>
         <p style="color:green;"><?= session()->getFlashdata('success') ?></p>
     <?php endif; ?>
     <?php if (session()->getFlashdata('error')): ?>
-        <p style="color:red;"><?= session()->getFlashdata('error') ?></p>
-    <?php endif; ?>
-    <form action="/product/store" method="post" enctype="multipart/form-data">
-        <?= csrf_field() ?> <!-- Include CSRF token for security -->
-        <label for="productName">Product Name:</label>
-        <input type="text" name="productName" id="productName" required><br>
+    <p style="color:red;"><?= session()->getFlashdata('error') ?></p>
+<?php endif; ?>
+<form class="user" action="<?= base_url('/product/store')?>" method="post" enctype="multipart/form-data">
 
-        <label for="productPrice">Product Price:</label>
-        <input type="text" name="productPrice" id="productPrice" required><br>
+    <?= csrf_field() ?> <!-- Include CSRF token for security -->
+    
+<div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input  class="form-control form-control-user" type="text" name="productName" id="productName" required placeholder="Product Name">
+        </div>
 
-        <label for="productMRP">Product MRP:</label>
-        <input type="text" name="productMRP" id="productMRP" required><br>
+    </div>
 
-        <label for="productBrand">Product Brand:</label>
-        <input type="text" name="productBrand" id="productBrand" required><br>
+    <div class="form-group row">
+        <div class="col-sm-3 mb-3 mb-sm-0">
 
-        <label for="productOS">Product OS:</label>
-        <input type="text" name="productOS" id="productOS" required><br>
+           <input  class="form-control form-control-user" type="text" name="productMRP" id="productMRP"
+           placeholder="Product MRP">
+       </div>
+       <div class="col-sm-3 mb-3 mb-sm-0">
 
-        <label for="productRAM">Product RAM:</label>
-        <input type="text" name="productRAM" id="productRAM" required><br>
+        <input  type="text" name="productPrice" id="productPrice" required class="form-control form-control-user" 
+        placeholder="Product Price">
+    </div>
+</div>
+<div class="form-group col-sm-2">
 
-        <label for="productHPP">Product HPP:</label>
-        <input type="text" name="productHPP" id="productHPP" required><br>
+</div>
 
-        <label for="productImage">Product Image:</label>
-        <input type="file" name="productImage" id="productImage" required><br>
 
-        <button type="submit">Add Product</button>
-    </form>
-</html>
+<div class="form-group row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <input class="form-control form-control-user" type="text" name="productBrand" id="productBrand"  placeholder="Brand Name" required>
+    </div>
+    
+</div>
 
+
+<div class="form-group row">
+
+    <div class="col-sm-6">
+        <input  class="form-control form-control-user" type="text" name="productOS" id="productOS" placeholder="Product OS">
+    </div>
+</div>
+
+
+
+
+
+<div class="form-group row">
+    <div class="col-sm-3 mb-3 mb-sm-0">
+        <input class="form-control form-control-user" type="text" name="productRAM" id="productRAM"  placeholder="RAM" required>
+    </div>
+    <div class="col-sm-3">
+        <input  class="form-control form-control-user" type="text" name="productHPP" id="productHPP" placeholder="Hard Disk Size">
+    </div>
+</div>
+
+
+<div class="form-group row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <input class="form-control form-control-user"  type="file" name="productImage" id="productImage"  placeholder="Product Image" required>
+    </div>
+
+</div>
+<button type="submit" class="btn btn-primary btn-user btn-block col-sm-3">
+ Add Product
+</button>
+</form>
+<hr>
+</div>
+</div>
+</div>
+<?= $this->include('layouts/profile_footer') ?>

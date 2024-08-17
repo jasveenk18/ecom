@@ -1,60 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>All Products</title>
-    <style>
-        /* Style for the modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
+<?= $this->include('layouts/profile_header') ?>
+    <link href="<?= base_url('vendor/datatables/dataTables.bootstrap4.min.css')?>" rel="stylesheet">
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-<body>
 <?php
 
 
 $loginStatus = session()->getFlashdata('CartStatus');
-print_r($loginStatus);
+// print_r($loginStatus);
 ?>
-    <h1>All Products</h1>
-    <?php if (!empty($products) && is_array($products)): ?>
-        <table border="1">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Available Products </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">    <?php if (!empty($products) && is_array($products)): ?>
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -85,11 +44,11 @@ print_r($loginStatus);
                             <a href="#" class="image-link" data-image="<?= base_url(esc($product['productImage'])) ?>">View Image</a>
                         </td>
                         <td>
-                            <a href="/product/details/<?= $product['productID'] ?>">View Details</a> <!-- Added View Details link -->
+                            <a href="<?= base_url('/product/details/'. $product['productID']) ?>">View Details</a> <!-- Added View Details link -->
                         </td>
 
                         <td>
-                            <a href="/cart/add/<?= $product['productID'] ?>">Add to cart</a>
+                            <a href="<?= base_url('cart/add/'. $product['productID']) ?>">Add to cart</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -98,5 +57,16 @@ print_r($loginStatus);
     <?php else: ?>
         <p>No products found.</p>
     <?php endif; ?>
-</body>
-</html>
+</div>
+</div>
+</div>
+<?= $this->include('layouts/profile_footer') ?>
+
+
+
+    <!-- Page level plugins -->
+    <script src="<?= base_url('vendor/datatables/jquery.dataTables.min.js')?>"></script>
+    <script src="<?= base_url('vendor/datatables/dataTables.bootstrap4.min.js')?>"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<?= base_url('js/demo/datatables-demo.js')?>"></script>

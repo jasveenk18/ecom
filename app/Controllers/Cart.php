@@ -50,7 +50,7 @@ class Cart extends BaseController
             session()->markAsFlashdata('CartStatus');
         }
 
-        return redirect()->to('/myCart')->with('success', 'Product added to cart!');
+        return redirect('/myCart');
     }
     public function success()
     {
