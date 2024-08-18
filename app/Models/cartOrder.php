@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProductTable extends Model
+class CartOrder extends Model
 {
     protected $table            = 'order_management';
     protected $primaryKey       = 'productID';

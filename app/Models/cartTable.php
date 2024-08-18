@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
-class CartModel extends Model
+class CartTable extends Model
 {
     protected $table = 'cart'; // Name of your cart table
     protected $primaryKey = 'id';

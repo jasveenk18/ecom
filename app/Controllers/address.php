@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class AddressForm extends BaseController
+class Address extends BaseController
 {
     public function area()
     {
